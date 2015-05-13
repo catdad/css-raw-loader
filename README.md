@@ -16,11 +16,11 @@ npm install css-raw-loader
 
 ``` javascript
 module: {
-        loaders: [
-            { test: /\.less$/, loader: 'style-loader!css-raw-loader!less-loader') },
-            { test: /\.css$/, loader: 'style-loader!css-raw-loader') }
-        ]
-    }
+    loaders: [
+        { test: /\.less$/, loader: 'style-loader!css-raw-loader!less-loader') },
+        { test: /\.css$/, loader: 'style-loader!css-raw-loader') }
+    ]
+}
 ```
 
 ## License
