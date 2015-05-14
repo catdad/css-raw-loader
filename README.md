@@ -26,3 +26,5 @@ module: {
 ## License
 
 [MIT](http://www.opensource.org/licenses/mit-license.php)
+
+[![Analytics](https://ga-beacon.appspot.com/UA-17159207-7/css-raw-loader/readme)](https://github.com/igrigorik/ga-beacon)
