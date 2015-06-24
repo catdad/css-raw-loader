@@ -4,7 +4,7 @@
 
 This loader is based on the [original CSS loader](https://github.com/webpack/css-loader) and the [raw loader](https://github.com/webpack/raw-loader). A lot of the credit goes to [@sokra](https://github.com/sokra). I am just enabling my own needs. 
 
-It is intended to allow developers to write CSS and use it Webpack without having Webpack resolve imports and image URLs from the CSS code. It will import exactly the CSS code that you wrote. It also plays nice with Less, Sass, and the ExtractTextPlugin.
+It is intended to allow developers to write CSS and use Webpack without having Webpack resolve imports and image URLs from the CSS code. It will import exactly the CSS code that you wrote. It also plays nice with Less, Sass, and the ExtractTextPlugin. It will automatically produce sourcemaps for dev builds and minify for production builds.
 
 ## Installation
 
