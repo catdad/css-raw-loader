@@ -1,18 +1,13 @@
 {
   "name": "css-raw-loader",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "Kiril Vatev @catdad"
   },
   "description": "CSS Raw loader module for Webpack",
   "homepage": "https://github.com/catdad/css-raw-loader",
   "repository": "git://github.com/catdad/css-raw-loader.git",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://www.opensource.org/licenses/mit-license.php"
-    }
-  ],
+  "license": "MIT",
   "dependencies": {
     "clean-css": "^3.2.10",
     "loader-utils": "~0.2.7",
