@@ -1,6 +1,16 @@
 # CSS Raw loader for Webpack
 
-# About
+[![Downloads][1]][2] [![Version][3]][2] [![ISC License][4]][5] 
+
+[1]: https://img.shields.io/npm/dm/css-raw-loader.svg?style=flat
+[2]: https://www.npmjs.com/package/css-raw-loader
+
+[3]: https://img.shields.io/npm/v/css-raw-loader.svg
+
+[4]: https://img.shields.io/npm/l/css-raw-loader.svg?style=flat
+[5]: http://opensource.org/licenses/MIT
+
+## About
 
 This loader is based on the [original CSS loader](https://github.com/webpack/css-loader) and the [raw loader](https://github.com/webpack/raw-loader). A lot of the credit goes to [@sokra](https://github.com/sokra). I am just enabling my own needs. 
 
