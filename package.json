@@ -9,8 +9,10 @@
   "repository": "git://github.com/catdad/css-raw-loader.git",
   "license": "MIT",
   "dependencies": {
-    "clean-css": "^3.2.10",
-    "loader-utils": "~0.2.7",
-    "source-list-map": "~0.1.5"
+    "clean-css": "^4.0.8",
+    "loader-utils": "~0.2.7"
+  },
+  "peerDependencies": {
+    "webpack": "^1.12.0 || ^2.2.0"
   }
 }

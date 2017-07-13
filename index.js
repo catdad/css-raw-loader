@@ -1,68 +1,47 @@
 /* jshint node: true, -W030 */
 
 /*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Kiril Vatev @catdad
-*/
+    MIT License http://www.opensource.org/licenses/mit-license.php
+    Author Kiril Vatev @catdad
+ */
 
-var path = require("path");
-var loaderUtils = require("loader-utils");
-var SourceListMap = require("source-list-map").SourceListMap;
-var CleanCSS = require("clean-css");
+var path = require('path');
+var loaderUtils = require('loader-utils');
+var CleanCSS = require('clean-css');
+var RequestShortener = require('webpack/lib/RequestShortener');
 
-module.exports = function(content, map) {
-	var query = loaderUtils.parseQuery(this.query);
-    
+module.exports = function (content, map) {
+    var config = loaderUtils.getLoaderConfig(this, 'cssRawLoader');
+
     this.cacheable && this.cacheable();
-	this.value = content;
-    
-    if (typeof map !== 'string') {
-        map = JSON.stringify(map);
-    }
-    
-    var result = [];
-    
-    var minimize = (this && this.minimize) || false;
-    
-    if(minimize) {
-		var options = Object.create(query);
-		if(query.sourceMap && map) {
-			options.sourceMap = map;
-		}
-		var minimizeResult = new CleanCSS(options).minify(content);
-		map = minimizeResult.sourceMap;
-		content = minimizeResult.styles;
-		if(typeof map !== "string") {
-			map = JSON.stringify(map);
-        }
-	} else {
-        var cssRequest = loaderUtils.getRemainingRequest(this);
-        var request = loaderUtils.getCurrentRequest(this);
+    this.value = content;
 
-        var sourceMap = new SourceListMap();
-        sourceMap.add(content, cssRequest, content);
-        map = sourceMap.toStringWithSourceMap({
-            file: request
-        }).map;
-
-        if(map.sources) {
-            map.sources = map.sources.map(function(source) {
-                var p = path.relative(query.context || this.options.context, source).replace(/\\/g, "/");
-                if(p.indexOf("../") !== 0) {
-                    p = "./" + p;
-                }
-                return "/" + p;
-            }, this);
-            map.sourceRoot = "webpack://";
+    if (config.minimize || this.minimize && config.minimize !== false) {
+        var options = Object.create(config);
+        if (config.sourceMap || this.sourceMap && config.sourceMap !== false) {
+            options.sourceMap = typeof map === 'string' ? map : (map ? JSON.stringify(map) : true);
         }
-        map = JSON.stringify(map);
+        var minimizeResult = new CleanCSS(options).minify(content);
+        map = JSON.stringify(minimizeResult.sourceMap); // Make the SourceMapGenerator a plain object
+        if (map) {
+            map = JSON.parse(map);
+        }
+        content = minimizeResult.styles;
     }
-    
-    var css = JSON.stringify(content);
-    
-    result.push("exports.push([module.id, " + css + ", \"\", " + map + "]);");
-    
-    return "exports = module.exports = require(" + loaderUtils.stringifyRequest(this, require.resolve("./css-base.js")) + ")();\n" +
-		result.join("\n");
+
+    if (map && map.sources) {
+        var context = config.context || this.options.context || process.cwd();
+        var requestShortener = new RequestShortener(context);
+        map.sources = map.sources.map(function (source) {
+            return requestShortener.shorten(path.resolve(context, source));
+        }, this);
+        map.sourceRoot = config.sourceRoot;
+    }
+
+    if (map && config.sourceMap !== false) {
+        return 'module.exports = [[module.id, ' + JSON.stringify(content) + ', "", ' + JSON.stringify(map) + ']];';
+    } else {
+        return 'module.exports = ' + JSON.stringify(content) + ';';
+    }
 };
 module.exports.seperable = true;
